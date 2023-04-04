@@ -56,7 +56,7 @@ const Home: FC = () => {
         {switchListView && (
           <ListItem listItem={listItem} handleRemoveItem={handleRemoveItem} />
         )}
-        {!switchListView && <Roulette listItem={listItem} />}
+        {/* {!switchListView && <Roulette listItem={listItem} />} */}
       </Box>
     </>
   );
