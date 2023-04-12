@@ -1,12 +1,6 @@
 import { FC, useState } from "react";
 // @mui
-import {
-  Box,
-  CssBaseline,
-  FormControlLabel,
-  FormGroup,
-  Switch,
-} from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 // @component
 import Header from "../components/Header";
 import FormItem from "../components/FormItem";
@@ -39,24 +33,18 @@ const Home: FC = () => {
       >
         <CssBaseline />
         <Header />
-        <FormItem handleAddItem={handleAddItem} />
-        <Box>
-          <FormControlLabel control={<></>} label="Roulette" />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={switchListView}
-                onChange={() => setSwitchListView(!switchListView)}
-                inputProps={{ "aria-label": "controlled" }}
-              />
-            }
-            label="List View"
-          />
-        </Box>
+        {switchListView && <FormItem handleAddItem={handleAddItem} />}
+
         {switchListView && (
-          <ListItem listItem={listItem} handleRemoveItem={handleRemoveItem} />
+          <ListItem
+            listItem={listItem}
+            handleRemoveItem={handleRemoveItem}
+            handleAlterToRoulette={setSwitchListView}
+          />
         )}
-        {/* {!switchListView && <Roulette listItem={listItem} />} */}
+        {!switchListView && (
+          <Roulette listItem={listItem} setSwitchListView={setSwitchListView} />
+        )}
       </Box>
     </>
   );

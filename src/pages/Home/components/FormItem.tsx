@@ -9,10 +9,11 @@ interface IFormItem {
 }
 
 const FormItem: FC<IFormItem> = ({ handleAddItem }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const onAdicionar = (data: any) => {
     handleAddItem(data.item as string);
+    reset();
   };
 
   return (
@@ -28,6 +29,8 @@ const FormItem: FC<IFormItem> = ({ handleAddItem }) => {
           required
           fullWidth
           id="item"
+          variant="outlined"
+          autoComplete="off"
           label="Nome do Item"
           autoFocus
           {...register("item", { required: true })}

@@ -1,15 +1,19 @@
-import { Box, Button } from "@mui/material";
 import { FC, useState } from "react";
-
+// @Mui
+import { Box, Button } from "@mui/material";
+// @Imports
 import { Wheel } from "react-custom-roulette";
-import { Item } from "../models/ItemModel";
 import Result from "./Result";
+// @Models
+import { Item } from "../models/ItemModel";
+import ButtonEndIndecision from "../../../shared/components/buttons/ButtonEndIndecision";
 
 interface IRoulette {
   listItem: Item[];
+  setSwitchListView: (boolean: boolean) => void;
 }
 
-const Roulette: FC<IRoulette> = ({ listItem }) => {
+const Roulette: FC<IRoulette> = ({ listItem, setSwitchListView }) => {
   const [openResult, setOpenResult] = useState(false);
   const [isFirst, setIsFrist] = useState<boolean>(true);
   const [mustSpin, setMustSpin] = useState<boolean>(false);
@@ -23,6 +27,11 @@ const Roulette: FC<IRoulette> = ({ listItem }) => {
 
   const handleClickOpen = () => {
     setOpenResult(true);
+  };
+
+  const handleCloseResult = (boolean: boolean) => {
+    setSwitchListView(true);
+    setOpenResult(boolean);
   };
 
   const handleSpinClick = () => {
@@ -73,14 +82,26 @@ const Roulette: FC<IRoulette> = ({ listItem }) => {
           handleClickOpen();
         }}
       />
-      <Button variant="contained" color="info" onClick={handleSpinClick}>
-        Acanar com a indecisão 🤌
-      </Button>
+      <Box display={"flex"}>
+        <ButtonEndIndecision
+          disabled={listItem.length < 2}
+          onClick={() => handleSpinClick()}
+          text="Acabar com a indecisão 🤌"
+        />
+        <Button
+          sx={{ color: "#FFF", marginLeft: 2 }}
+          color={"warning"}
+          variant="contained"
+          onClick={() => setSwitchListView(true)}
+        >
+          Voltar 🔙
+        </Button>
+      </Box>
       {!isFirst && !mustSpin && (
         <Result
           open={openResult}
           value={data[prizeNumber].option}
-          handleClose={setOpenResult}
+          handleClose={handleCloseResult}
         />
       )}
       {!isFirst && !mustSpin && <span>{data[prizeNumber].option}</span>}

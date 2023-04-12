@@ -8,61 +8,74 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 // @model
 import { Item } from "../models/ItemModel";
+import ButtonEndIndecision from "../../../shared/components/buttons/ButtonEndIndecision";
 
 interface IListItem {
   listItem: Item[];
   handleRemoveItem: (idItem: string) => void;
+  handleAlterToRoulette: (boolean: boolean) => void;
 }
 
-const ListItem: FC<IListItem> = ({ listItem, handleRemoveItem }) => {
+const ListItem: FC<IListItem> = ({
+  listItem,
+  handleRemoveItem,
+  handleAlterToRoulette,
+}) => {
   const onRemover = (idItem: string) => {
     handleRemoveItem(idItem);
   };
 
   return (
-    <List
-      sx={{
-        width: "100%",
-        maxWidth: 360,
-        maxHeight: 175,
-        overflow: "auto",
-      }}
-    >
-      {listItem.length ? (
-        listItem.map((item, indice) => {
-          return (
-            <ListItemMaterialUI
-              key={item.id}
-              secondaryAction={
-                <IconButton
-                  edge="end"
-                  aria-label="comments"
-                  onClick={() => onRemover(item.id)}
-                >
-                  <DeleteIcon color="error" />
-                </IconButton>
-              }
-              disablePadding
-            >
-              {indice + 1}
-              <ListItemButton dense>
-                <ListItemText primary={item.value} />
-              </ListItemButton>
-            </ListItemMaterialUI>
-          );
-        })
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h6">Lista Vazia 😢 </Typography>
-        </Box>
-      )}
-    </List>
+    <>
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: 360,
+          maxHeight: 175,
+          overflow: "auto",
+        }}
+      >
+        {listItem.length ? (
+          listItem.map((item, indice) => {
+            return (
+              <ListItemMaterialUI
+                key={item.id}
+                secondaryAction={
+                  <IconButton
+                    edge="end"
+                    aria-label="comments"
+                    onClick={() => onRemover(item.id)}
+                  >
+                    <DeleteIcon color="error" />
+                  </IconButton>
+                }
+                disablePadding
+              >
+                {indice + 1}
+                <ListItemButton dense>
+                  <ListItemText primary={item.value} />
+                </ListItemButton>
+              </ListItemMaterialUI>
+            );
+          })
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h6">Lista Vazia 😢 </Typography>
+          </Box>
+        )}
+      </List>
+      <ButtonEndIndecision
+        disabled={listItem.length < 2}
+        onClick={() => handleAlterToRoulette(false)}
+        text="Acabar com a indecisão 🤌"
+      />
+    </>
   );
 };
 
